@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Кейс — Component®</title>
+<link rel="stylesheet" href="case.css" />
+<link rel="stylesheet" href="case-page.css" />
+</head>
+<body>
+
+<nav class="cs-nav">
+  <a href="Landing.html" class="cs-nav-back">
+    <span style="font-size:16px">←</span> К проектам
+  </a>
+  <a href="Landing.html" class="cs-nav-logo" style="gap:12px;">
+    <svg viewBox="0 0 32 32" width="28" height="28" aria-hidden="true">
+      <g fill="rgba(255,255,255,0.95)">
+        <rect x="12.5" y="2.5" width="7" height="7" rx="1" transform="rotate(45 16 6)"/>
+        <rect x="2.5" y="12.5" width="7" height="7" rx="1" transform="rotate(45 6 16)"/>
+        <rect x="22.5" y="12.5" width="7" height="7" rx="1" transform="rotate(45 26 16)"/>
+        <rect x="12.5" y="22.5" width="7" height="7" rx="1" transform="rotate(45 16 26)"/>
+      </g>
+    </svg>
+    <span>Component<sup style="font-size:10px;color:var(--bg-glow);font-weight:500">®</sup></span>
+  </a>
+  <a href="Landing.html#contact" class="cs-nav-cta">Связаться</a>
+</nav>
+
+<main id="cs-root" class="cs-wrap"></main>
+
+<script src="cases-data.js"></script>
+<script>
+(function () {
+  const params = new URLSearchParams(location.search);
+  const id = params.get('id') || (window.CASES[0] && window.CASES[0].id);
+  const data = window.CASES.find(c => c.id === id) || window.CASES[0];
+  const root = document.getElementById('cs-root');
+
+  if (!data) {
+    root.innerHTML = '<h1 style="font-size:48px;font-family:var(--display)">Кейс не найден</h1><p style="color:var(--fg-dim);margin-top:16px"><a href="Landing.html" style="border-bottom:1px solid currentColor">Вернуться к проектам →</a></p>';
+    return;
+  }
+
+  document.title = `${data.name} — Кейс · Component®`;
+
+  const catLabels = data.cats.map(c => window.CAT_LABEL[c] || c);
+  const otherCases = window.CASES.filter(c => c.id !== data.id).slice(0, 3);
+  // pick 3 others, looping after current
+  const idx = window.CASES.findIndex(c => c.id === data.id);
+  const ordered = [...window.CASES.slice(idx + 1), ...window.CASES.slice(0, idx)].slice(0, 3);
+
+  root.innerHTML = `
+    <div class="cs-eyebrow"><span class="dot"></span> Кейс № ${data.num} / ${data.year}</div>
+
+    <h1 class="cs-title">${data.name}</h1>
+
+    <p class="cs-lead">${data.lead}</p>
+
+    <div class="cs-meta">
+      <div class="cs-meta-item">
+        <span class="cs-meta-lbl">Клиент</span>
+        <span class="cs-meta-val">${data.client}</span>
+      </div>
+      <div class="cs-meta-item">
+        <span class="cs-meta-lbl">Категории</span>
+        <span class="cs-meta-val">${catLabels.map(l => `<span class="pill">${l}</span>`).join(' ')}</span>
+      </div>
+      <div class="cs-meta-item">
+        <span class="cs-meta-lbl">Год</span>
+        <span class="cs-meta-val">${data.year}</span>
+      </div>
+      <div class="cs-meta-item">
+        <span class="cs-meta-lbl">Роль</span>
+        <span class="cs-meta-val" style="font-size:15px;line-height:1.4;font-weight:500">${data.role}</span>
+      </div>
+    </div>
+
+    <div class="cs-img-cover">
+      <img src="${data.cover}" alt="${data.name}" />
+    </div>
+
+    <section class="cs-story cs-reveal">
+      <div class="cs-story-lbl"><span class="num">01</span>О проекте</div>
+      <div>
+        <h2 class="cs-story-h">${data.name} <em>в коротком абзаце</em></h2>
+        <p class="cs-story-p">${data.about}</p>
+      </div>
+    </section>
+
+    <section class="cs-story cs-reveal">
+      <div class="cs-story-lbl"><span class="num">02</span>Задача</div>
+      <div>
+        <h2 class="cs-story-h">Что было <em>сложным</em></h2>
+        <p class="cs-story-p">${data.challenge}</p>
+      </div>
+    </section>
+
+    <section class="cs-story cs-reveal">
+      <div class="cs-story-lbl"><span class="num">03</span>Решение</div>
+      <div>
+        <h2 class="cs-story-h">Как мы это <em>сделали</em></h2>
+        <p class="cs-story-p">${data.solution}</p>
+      </div>
+    </section>
+
+    ${data.stats && data.stats.length ? `
+      <div class="cs-stats-row cs-reveal">
+        ${data.stats.map(s => `
+          <div class="cs-stat">
+            <div class="v">${s.v}</div>
+            <div class="l">${s.l}</div>
+          </div>
+        `).join('')}
+      </div>
+    ` : ''}
+
+    ${data.gallery && data.gallery.length ? `
+      <section class="cs-gallery">
+        ${data.gallery.map((g, i) => `
+          <figure class="cs-gallery-item cs-reveal">
+            <div class="cs-gallery-img">
+              <span class="cs-gallery-num">${String(i + 1).padStart(2, '0')}</span>
+              <img src="${g.img}" alt="${g.title}" loading="lazy" />
+            </div>
+            <figcaption class="cs-gallery-cap">
+              <h3>${g.title}</h3>
+              <p>${g.text}</p>
+            </figcaption>
+          </figure>
+        `).join('')}
+      </section>
+    ` : ''}
+
+    <section class="cs-reveal" style="margin-top:80px">
+      <div class="cs-others-head">
+        <h2>Другие <em>работы</em></h2>
+        <a href="Landing.html#works">Все проекты →</a>
+      </div>
+      <div class="cs-others-grid">
+        ${ordered.map(c => `
+          <a class="cs-other-card" href="Case.html?id=${c.id}">
+            <img src="${c.cover}" alt="${c.name}" />
+            <div class="label">
+              <div>
+                <div class="tag">${c.cats.map(cc => window.CAT_LABEL[cc]).join(' · ')} · ${c.year}</div>
+                <div class="name">${c.name}</div>
+              </div>
+              <div class="arrow">→</div>
+            </div>
+          </a>
+        `).join('')}
+      </div>
+    </section>
+
+    <div class="cs-bigcta cs-reveal">
+      <h3>Сделаем что-то <em>похожее</em> для вас?</h3>
+      <p>Расскажите о задаче — ответим в течение одного рабочего дня и предложим, как двигаться дальше.</p>
+      <a href="Landing.html#contact">Начать проект →</a>
+    </div>
+  `;
+
+  // Reveal on scroll
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('in');
+        io.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.12 });
+  root.querySelectorAll('.cs-reveal').forEach(el => io.observe(el));
+
+  // Scroll to top on case change
+  window.scrollTo({ top: 0, behavior: 'instant' });
+})();
+</script>
+</body>
+</html>
