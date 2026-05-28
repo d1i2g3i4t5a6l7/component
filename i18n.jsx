@@ -8,7 +8,7 @@ window.LANGS = [
 
 window.DICT = {
   ru: {
-    nav: { projects: 'Проекты', services: 'Услуги', process: 'Процесс', cta: 'Связаться', studio: 'Студия дизайна' },
+    nav: { projects: 'Проекты', services: 'Услуги', process: 'Процесс', faq: 'FAQ', cta: 'Связаться', studio: 'Студия дизайна' },
     hero: {
       titleL1: 'Компо', titleL2: 'нент',
       sub: 'Студия дизайна и разработки, готовая к\u00A0реализации проектов любой сложности — от\u00A0идентики до\u00A0интерфейсов.',
@@ -22,7 +22,7 @@ window.DICT = {
     },
     marquee: ['Брендинг','Веб-дизайн','Интерфейсы','Типографика','Анимация','Айдентика'],
     projects: {
-      eyebrow: 'Проекты', titleA: 'Избранные', titleB: 'работы',
+      eyebrow: 'Проекты', titleA: 'Избранные', titleB: 'работы', showMore: 'Показать ещё',
       filters: { all: 'Все', uxui: 'UX/UI', landings: 'Лендинги', identity: 'Айдентика', presentations: 'Презентации' },
       cats:    { uxui: 'UX/UI', landings: 'Лендинг', identity: 'Айдентика', presentations: 'Презентации' },
       names: {
@@ -135,7 +135,7 @@ window.DICT = {
   },
 
   en: {
-    nav: { projects: 'Projects', services: 'Services', process: 'Process', cta: 'Get in touch', studio: 'Design studio' },
+    nav: { projects: 'Projects', services: 'Services', process: 'Process', faq: 'FAQ', cta: 'Get in touch', studio: 'Design studio' },
     hero: {
       titleL1: 'Kompo', titleL2: 'nent',
       sub: 'A design and development studio, ready to deliver projects of any complexity — from identity to interfaces.',
@@ -149,7 +149,7 @@ window.DICT = {
     },
     marquee: ['Branding','Web design','Interfaces','Typography','Motion','Identity'],
     projects: {
-      eyebrow: 'Projects', titleA: 'Selected', titleB: 'works',
+      eyebrow: 'Projects', titleA: 'Selected', titleB: 'works', showMore: 'Show more',
       filters: { all: 'All', uxui: 'UX/UI', landings: 'Landings', identity: 'Identity', presentations: 'Presentations' },
       cats:    { uxui: 'UX/UI', landings: 'Landing', identity: 'Identity', presentations: 'Presentations' },
       names: {
@@ -262,7 +262,7 @@ window.DICT = {
   },
 
   es: {
-    nav: { projects: 'Proyectos', services: 'Servicios', process: 'Proceso', cta: 'Contactar', studio: 'Estudio de diseño' },
+    nav: { projects: 'Proyectos', services: 'Servicios', process: 'Proceso', faq: 'FAQ', cta: 'Contactar', studio: 'Estudio de diseño' },
     hero: {
       titleL1: 'Kompo', titleL2: 'nent',
       sub: 'Un estudio de diseño y desarrollo, listo para entregar proyectos de cualquier complejidad — desde la identidad hasta las interfaces.',
@@ -276,7 +276,7 @@ window.DICT = {
     },
     marquee: ['Branding','Diseño web','Interfaces','Tipografía','Animación','Identidad'],
     projects: {
-      eyebrow: 'Proyectos', titleA: 'Trabajos', titleB: 'seleccionados',
+      eyebrow: 'Proyectos', titleA: 'Trabajos', titleB: 'seleccionados', showMore: 'Ver más',
       filters: { all: 'Todos', uxui: 'UX/UI', landings: 'Landings', identity: 'Identidad', presentations: 'Presentaciones' },
       cats:    { uxui: 'UX/UI', landings: 'Landing', identity: 'Identidad', presentations: 'Presentaciones' },
       names: {

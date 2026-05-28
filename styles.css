@@ -110,7 +110,8 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
   position: fixed;
   top: 24px; left: 50%;
   transform: translateX(-50%);
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
   align-items: center;
   gap: 14px;
   z-index: 100;
@@ -119,31 +120,37 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
   pointer-events: none;
 }
 .kmp-nav > * { pointer-events: auto; }
+.kmp-nav-logo { justify-self: start; }
+.kmp-nav-pill { justify-self: center; }
+.kmp-nav-right { justify-self: end; }
 
 .kmp-nav-logo {
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  gap: 12px;
-  padding: 12px 20px 12px 14px;
+  padding: 12px 22px;
   background: rgba(255,255,255,0.08);
   border: 1px solid rgba(255,255,255,0.18);
   backdrop-filter: blur(18px);
   -webkit-backdrop-filter: blur(18px);
   border-radius: 999px;
+  text-decoration: none;
+  transition: background 0.2s, border-color 0.2s;
 }
-.kmp-nav-logo-mark {
-  width: 32px; height: 32px;
-  display: flex; align-items: center; justify-content: center;
+.kmp-nav-logo:hover {
+  background: rgba(255,255,255,0.12);
+  border-color: rgba(255,255,255,0.32);
 }
-.kmp-nav-logo-text { display: flex; flex-direction: column; line-height: 1.05; text-align: center; align-items: center; }
-.kmp-nav-logo-text strong { font-size: 16px; font-weight: 700; letter-spacing: -0.01em; }
-.kmp-nav-logo-text span { font-size: 9px; color: var(--fg-mute); letter-spacing: 0.04em; text-transform: uppercase; }
+.kmp-nav-logo-img {
+  display: block;
+  height: 32px;
+  width: auto;
+  user-select: none;
+}
 
 .kmp-nav-pill {
-  flex: 1;
   display: flex;
   align-items: center;
-  justify-content: space-around;
+  justify-content: center;
   gap: 8px;
   padding: 8px;
   background: rgba(20, 8, 70, 0.55);
@@ -151,8 +158,6 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
   backdrop-filter: blur(18px);
   -webkit-backdrop-filter: blur(18px);
   border-radius: 999px;
-  max-width: 540px;
-  margin: 0 auto;
 }
 .kmp-nav-pill a {
   padding: 12px 24px;
@@ -183,47 +188,101 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
   align-items: center;
   gap: 12px;
 }
-.kmp-lang-switch {
-  display: flex;
-  align-items: center;
-  background: rgba(255,255,255,0.06);
-  border: 1px solid rgba(255,255,255,0.12);
-  border-radius: 999px;
-  padding: 3px;
-  backdrop-filter: blur(10px);
+.kmp-lang {
+  position: relative;
 }
-.kmp-lang-btn {
-  border: 0;
-  background: transparent;
-  color: var(--fg-mute);
-  font-family: var(--body);
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.08em;
-  padding: 6px 11px;
-  border-radius: 999px;
-  cursor: pointer;
-  transition: color .2s, background .25s;
+.kmp-lang-trigger {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
+  gap: 10px;
+  padding: 14px 22px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 999px;
+  color: var(--fg-dim);
+  font: inherit;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  transition: background 0.2s, border-color 0.2s, color 0.2s;
 }
+.kmp-lang-trigger:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.32);
+  color: var(--fg);
+}
+.kmp-lang.is-open .kmp-lang-trigger {
+  background: rgba(255, 255, 255, 0.14);
+  border-color: rgba(255, 255, 255, 0.32);
+  color: var(--fg);
+}
+.kmp-lang-caret {
+  transition: transform 0.25s;
+  opacity: 0.7;
+}
+.kmp-lang.is-open .kmp-lang-caret { transform: rotate(180deg); opacity: 1; }
 .kmp-lang-flag {
   display: inline-flex;
   width: 18px;
   height: 12px;
   border-radius: 2px;
   overflow: hidden;
-  box-shadow: 0 0 0 1px rgba(0,0,0,0.25), 0 1px 2px rgba(0,0,0,0.3);
   flex-shrink: 0;
+  box-shadow: 0 0 0 1px rgba(0,0,0,0.25), 0 1px 2px rgba(0,0,0,0.3);
 }
 .kmp-lang-flag svg { display: block; width: 100%; height: 100%; }
-.kmp-lang-btn:hover { color: var(--fg); }
-.kmp-lang-btn.is-active {
-  color: var(--fg);
-  background: rgba(255,255,255,0.14);
-  box-shadow: inset 0 0 0 1px rgba(255,255,255,0.15);
+.kmp-lang-menu {
+  position: absolute;
+  top: calc(100% + 10px);
+  right: 0;
+  min-width: 168px;
+  padding: 6px;
+  background: rgba(34, 16, 80, 0.86);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 16px;
+  box-shadow: 0 20px 50px rgba(8, 4, 28, 0.45), 0 0 0 1px rgba(255,255,255,0.04);
+  backdrop-filter: blur(20px) saturate(140%);
+  -webkit-backdrop-filter: blur(20px) saturate(140%);
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-6px) scale(0.98);
+  transform-origin: top right;
+  transition: opacity 0.2s, transform 0.2s;
+  z-index: 100;
 }
+.kmp-lang.is-open .kmp-lang-menu {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0) scale(1);
+}
+.kmp-lang-option {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 10px 12px;
+  background: transparent;
+  border: 0;
+  border-radius: 10px;
+  color: var(--fg-dim);
+  font: inherit;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+  text-align: left;
+  transition: background 0.15s, color 0.15s;
+}
+.kmp-lang-option:hover { background: rgba(255, 255, 255, 0.08); color: var(--fg); }
+.kmp-lang-option.is-active { color: var(--fg); background: rgba(255, 255, 255, 0.10); }
+.kmp-lang-option .kmp-lang-label { flex: 1; }
+.kmp-lang-check { opacity: 0.85; }
 
 /* ───── Hero ───── */
 .kmp-hero {
@@ -275,16 +334,27 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
 }
 
 .kmp-btn-primary {
-  padding: 18px 36px;
+  padding: 24px 56px;
   background: var(--fg);
   color: var(--accent-ink);
   border-radius: 999px;
   font-weight: 600;
-  font-size: 16px;
+  font-size: 19px;
+  letter-spacing: -0.005em;
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 10px;
-  transition: transform .25s;
+  transition: transform .25s, box-shadow .35s, background .35s;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
+}
+.kmp-btn-primary:hover {
+  transform: translateY(-1px);
+  box-shadow:
+    0 0 0 6px rgba(255, 255, 255, 0.10),
+    0 0 32px rgba(255, 255, 255, 0.55),
+    0 0 64px rgba(192, 175, 255, 0.45),
+    0 14px 40px rgba(0, 0, 0, 0.25);
 }
 .kmp-btn-secondary {
   padding: 18px 36px;
@@ -539,6 +609,9 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
 .kmp-project-card:hover .label-r { transform: rotate(-45deg); }
 .kmp-projects-grid.is-compact .kmp-project-card .label-l .name { font-size: 22px; }
 
+/* Show-more button — visible only on mobile (rules added inside the 720px breakpoint) */
+.kmp-projects-more { display: none; }
+
 /* ───── Services ───── */
 .kmp-services {
   position: relative;
@@ -690,7 +763,7 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
 /* ───── Process ───── */
 .kmp-process-bar {
   margin-bottom: 36px;
-  padding: 28px 32px 24px;
+  padding: 48px 32px 24px;
   background: linear-gradient(160deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));
   border: 1px solid rgba(255,255,255,0.12);
   border-radius: 24px;
@@ -705,11 +778,12 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
 }
 .kmp-process-bar-fill {
   position: absolute;
-  inset: 0 auto 0 0;
-  background: var(--accent);
+  inset: 0;
+  width: 100%;
+  background: linear-gradient(90deg, #ffffff 0%, #22c55e 100%);
   border-radius: 999px;
-  transition: width .55s cubic-bezier(.2,.8,.2,1);
-  box-shadow: 0 0 24px var(--accent);
+  transition: clip-path .55s cubic-bezier(.2,.8,.2,1);
+  box-shadow: 0 0 24px rgba(255, 255, 255, 0.35);
 }
 .kmp-process-bar-node {
   position: absolute;
@@ -730,12 +804,12 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
   transition: background .25s, border-color .25s, transform .25s, box-shadow .25s;
 }
 .kmp-process-bar-node.is-done .dot {
-  background: var(--accent);
-  border-color: var(--accent);
+  background: var(--step-color, var(--accent));
+  border-color: var(--step-color, var(--accent));
 }
 .kmp-process-bar-node.is-active .dot {
   transform: scale(1.35);
-  box-shadow: 0 0 0 6px rgba(255, 92, 26, 0.18);
+  box-shadow: 0 0 0 6px color-mix(in srgb, var(--step-color, #ffffff) 22%, transparent);
 }
 .kmp-process-bar-node .cap {
   position: absolute;
@@ -780,10 +854,10 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
 }
 .kmp-process-step:hover { transform: translateY(-4px); }
 .kmp-process-step.is-active {
-  background: linear-gradient(160deg, rgba(255, 92, 26, 0.18), rgba(255, 92, 26, 0.04));
-  border-color: var(--accent);
+  background: linear-gradient(160deg, color-mix(in srgb, var(--card-color, #ff5c1a) 22%, transparent), color-mix(in srgb, var(--card-color, #ff5c1a) 4%, transparent));
+  border-color: var(--card-color, var(--accent));
 }
-.kmp-process-step.is-done .step-num { color: var(--accent); }
+.kmp-process-step.is-done .step-num { color: var(--card-color, var(--accent)); }
 .kmp-process-step .step-row {
   display: flex;
   justify-content: space-between;
@@ -799,7 +873,7 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
   opacity: 0.4;
   transition: color .25s, opacity .25s;
 }
-.kmp-process-step.is-active .step-num { color: var(--accent); opacity: 1; }
+.kmp-process-step.is-active .step-num { color: var(--card-color, var(--accent)); opacity: 1; }
 .kmp-process-step .step-dur {
   font-family: var(--mono, ui-monospace, monospace);
   font-size: 11px;
@@ -1210,21 +1284,17 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
     top: 12px;
     width: calc(100% - 16px);
     gap: 8px;
-    flex-wrap: nowrap;
+    grid-template-columns: auto 1fr;
   }
+  .kmp-nav-pill { display: none; }
+  .kmp-nav-logo { justify-self: start; }
+  .kmp-nav-right { justify-self: end; gap: 6px; }
   .kmp-nav-logo {
-    padding: 8px 14px 8px 10px;
-    gap: 8px;
+    padding: 8px 14px;
   }
-  .kmp-nav-logo-mark { width: 26px; height: 26px; }
-  .kmp-nav-logo-mark svg { width: 22px; height: 22px; }
-  .kmp-nav-logo-text strong { font-size: 14px; }
-  .kmp-nav-logo-text span { display: none; }
-  .kmp-nav-right { gap: 6px; margin-left: auto; }
-  .kmp-lang-switch { padding: 2px; }
-  .kmp-lang-btn { padding: 5px 7px; font-size: 10px; gap: 0; }
-  .kmp-lang-btn .kmp-lang-label { display: none; }
-  .kmp-lang-btn.is-active .kmp-lang-label { display: none; }
+  .kmp-nav-logo-img { height: 22px; }
+  .kmp-lang-trigger { padding: 10px 14px; font-size: 13px; gap: 8px; }
+  .kmp-lang-menu { min-width: 150px; }
   .kmp-nav-cta { padding: 10px 16px; font-size: 13px; }
 
   /* Hero */
@@ -1295,6 +1365,36 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
   .kmp-project-card .label-l .tag { font-size: 10px; }
   .kmp-project-card .label-r { width: 36px; height: 36px; font-size: 16px; }
 
+  /* Collapsed favorites: show only the first 3 cards on mobile */
+  .kmp-projects-grid.is-collapsed > .kmp-project-card:nth-child(n+4) {
+    display: none;
+  }
+  .kmp-projects-more {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin: 18px auto 0;
+    padding: 18px 28px;
+    width: 100%;
+    background: var(--fg);
+    color: var(--accent-ink);
+    border: 1px solid var(--fg);
+    border-radius: 999px;
+    font: inherit;
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: -0.005em;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.2s, box-shadow 0.25s;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.18);
+  }
+  .kmp-projects-more:hover {
+    background: rgba(255, 255, 255, 0.92);
+    box-shadow: 0 0 24px rgba(255, 255, 255, 0.45), 0 6px 18px rgba(0, 0, 0, 0.18);
+  }
+  .kmp-projects-more:active { transform: translateY(1px); }
+
   /* Services */
   .kmp-service {
     padding: 22px 20px;
@@ -1332,13 +1432,37 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
   .kmp-about-stat .lbl { font-size: 13px; }
 
   /* Process */
-  .kmp-process-bar { padding: 20px 18px 16px; margin-bottom: 24px; border-radius: 18px; }
+  /* Process */
+  .kmp-process-bar { padding: 36px 18px 16px; margin-bottom: 24px; border-radius: 18px; }
   .kmp-process-bar-track { margin: 12px 8px 44px; }
   .kmp-process-bar-node .cap { font-size: 9px; bottom: calc(100% + 8px); }
   .kmp-process-bar-meta { font-size: 10px; }
-  .kmp-process { grid-template-columns: 1fr; gap: 12px; }
+  /* Process — horizontal scroll-snap carousel on mobile */
+  .kmp-process {
+    display: flex;
+    flex-direction: row;
+    grid-template-columns: none;
+    gap: 14px;
+    overflow-x: auto;
+    overflow-y: visible;
+    scroll-snap-type: x mandatory;
+    scroll-padding-left: 20px;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    /* let cards bleed to the viewport edges */
+    margin-left: calc(50% - 50vw);
+    margin-right: calc(50% - 50vw);
+    padding: 4px 20px 20px;
+  }
+  .kmp-process::-webkit-scrollbar { display: none; }
   .kmp-process-step,
-  .kmp-process-step:nth-child(n+5) { grid-column: span 1; }
+  .kmp-process-step:nth-child(n+5) {
+    grid-column: auto;
+    flex: 0 0 78%;
+    max-width: 78%;
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+  }
   .kmp-process-step {
     padding: 22px 20px 24px;
     min-height: 0;
@@ -1382,7 +1506,7 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
     padding: 16px 32px;
     font-size: 15px;
   }
-  .kmp-contact-legal { font-size: 11px; }
+  .kmp-contact-legal { font-size: 15px; }
 
   /* Footer */
   .kmp-footer-grid {

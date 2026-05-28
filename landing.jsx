@@ -187,19 +187,60 @@ function FlagSVG({ code }) {
 
 function LangSwitch() {
   const { lang, setLang } = window.useT();
+  const [open, setOpen] = useState(false);
+  const wrapRef = useRef(null);
+  const current = window.LANGS.find(l => l.id === lang) || window.LANGS[0];
+
+  useEffect(() => {
+    if (!open) return;
+    const onDoc = (e) => {
+      if (wrapRef.current && !wrapRef.current.contains(e.target)) setOpen(false);
+    };
+    const onKey = (e) => { if (e.key === 'Escape') setOpen(false); };
+    document.addEventListener('mousedown', onDoc);
+    document.addEventListener('keydown', onKey);
+    return () => {
+      document.removeEventListener('mousedown', onDoc);
+      document.removeEventListener('keydown', onKey);
+    };
+  }, [open]);
+
   return (
-    <div className="kmp-lang-switch" role="group" aria-label="Language">
-      {window.LANGS.map(l => (
-        <button
-          key={l.id}
-          className={`kmp-lang-btn ${lang === l.id ? 'is-active' : ''}`}
-          onClick={() => setLang(l.id)}
-          aria-pressed={lang === l.id}
-        >
-          <span className="kmp-lang-flag"><FlagSVG code={l.id} /></span>
-          <span className="kmp-lang-label">{l.label}</span>
-        </button>
-      ))}
+    <div className={`kmp-lang ${open ? 'is-open' : ''}`} ref={wrapRef}>
+      <button
+        type="button"
+        className="kmp-lang-trigger"
+        onClick={() => setOpen(o => !o)}
+        aria-haspopup="listbox"
+        aria-expanded={open}
+        aria-label="Change language"
+      >
+        <span className="kmp-lang-flag"><FlagSVG code={current.id} /></span>
+        <span className="kmp-lang-label">{current.label}</span>
+        <svg className="kmp-lang-caret" viewBox="0 0 12 12" width="12" height="12" aria-hidden="true">
+          <path d="M3 4.5 L6 7.5 L9 4.5" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+      </button>
+      <div className="kmp-lang-menu" role="listbox">
+        {window.LANGS.map(l => (
+          <button
+            key={l.id}
+            type="button"
+            role="option"
+            aria-selected={lang === l.id}
+            className={`kmp-lang-option ${lang === l.id ? 'is-active' : ''}`}
+            onClick={() => { setLang(l.id); setOpen(false); }}
+          >
+            <span className="kmp-lang-flag"><FlagSVG code={l.id} /></span>
+            <span className="kmp-lang-label">{l.label}</span>
+            {lang === l.id && (
+              <svg className="kmp-lang-check" viewBox="0 0 14 14" width="14" height="14" aria-hidden="true">
+                <path d="M3 7.5 L6 10.5 L11 4.5" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            )}
+          </button>
+        ))}
+      </div>
     </div>
   );
 }
@@ -209,17 +250,14 @@ function Nav() {
   const { t } = window.useT();
   return (
     <nav className="kmp-nav">
-      <div className="kmp-nav-logo">
-        <div className="kmp-nav-logo-mark"><LogoMark /></div>
-        <div className="kmp-nav-logo-text">
-          <strong>Компонент</strong>
-          <span>{t('nav.studio')}</span>
-        </div>
-      </div>
+      <a href="#top" className="kmp-nav-logo" aria-label="Component Studio">
+        <img src="assets/Logo.svg" alt="Компонент — Студия дизайна" className="kmp-nav-logo-img" />
+      </a>
       <div className="kmp-nav-pill">
         <a href="#works">{t('nav.projects')}</a>
         <a href="#services">{t('nav.services')}</a>
         <a href="#process">{t('nav.process')}</a>
+        <a href="#faq">{t('nav.faq')}</a>
       </div>
       <div className="kmp-nav-right">
         <LangSwitch />
@@ -244,10 +282,9 @@ function Hero() {
         <div className="kmp-hero-actions">
           <Magnetic strength={0.3}>
             <a href="#contact" className="kmp-btn-primary">
-              {t('hero.ctaStart')} <span>→</span>
+              {t('hero.ctaStart')}
             </a>
           </Magnetic>
-          <a href="#works" className="kmp-btn-secondary">{t('hero.ctaWorks')}</a>
         </div>
       </div>
     </section>
@@ -287,6 +324,8 @@ const PROJECT_FILTER_IDS = ['all', 'uxui', 'landings', 'identity', 'presentation
 function Projects({ density }) {
   const { t, dict } = window.useT();
   const [filter, setFilter] = useState('all');
+  const [showAll, setShowAll] = useState(false);
+  useEffect(() => { setShowAll(false); }, [filter]);
   const list = filter === 'all' ? PROJECTS : PROJECTS.filter(p => p.cats.includes(filter));
   return (
     <section className="kmp-section" id="works">
@@ -308,7 +347,7 @@ function Projects({ density }) {
           );
         })}
       </div>
-      <div className={`kmp-projects-grid is-bento ${density === 'compact' ? 'is-compact' : ''}`}>
+      <div className={`kmp-projects-grid is-bento ${density === 'compact' ? 'is-compact' : ''} ${showAll ? 'is-expanded' : 'is-collapsed'}`}>
         {list.map(p => (
           <a key={p.id} href={`Case.html?id=${p.id}`} className={`kmp-project-card shape-${p.shape}`}>
             <div className="stripe" style={{ '--swatch': p.swatch }}></div>
@@ -324,6 +363,11 @@ function Projects({ density }) {
           </a>
         ))}
       </div>
+      {!showAll && list.length > 3 && (
+        <button type="button" className="kmp-projects-more" onClick={() => setShowAll(true)}>
+          {dict.projects.showMore}
+        </button>
+      )}
     </section>
   );
 }
@@ -898,10 +942,58 @@ function About() {
 
 // ───── Process ─────
 const STEP_NUMS = ['01','02','03','04','05','06','07'];
+
+// Color progression: bar nodes/fill go white → green; cards go red-orange → green.
+const STEP_START = '#ffffff';
+const CARD_START = '#ff5c1a';
+const STEP_END   = '#22c55e';
+function _hex(h) { const n = parseInt(h.slice(1), 16); return [n >> 16 & 255, n >> 8 & 255, n & 255]; }
+function _toHex(rgb) { return '#' + rgb.map(v => Math.round(v).toString(16).padStart(2, '0')).join(''); }
+function mixHex(a, b, t) {
+  const A = _hex(a), B = _hex(b);
+  return _toHex([A[0] + (B[0]-A[0])*t, A[1] + (B[1]-A[1])*t, A[2] + (B[2]-A[2])*t]);
+}
+function stepProgress(i, n) { return n > 1 ? i / (n - 1) : 0; }
+
 function Process() {
   const { dict } = window.useT();
   const steps = dict.process.steps;
   const [active, setActive] = useState(0);
+  const scrollerRef = useRef(null);
+
+  // Mobile carousel: advance active when the active card's midpoint
+  // scrolls past the viewport's left edge.
+  useEffect(() => {
+    const el = scrollerRef.current;
+    if (!el) return;
+    const mql = window.matchMedia('(max-width: 720px)');
+    let rafId = 0;
+    const onScroll = () => {
+      if (!mql.matches) return;
+      if (rafId) cancelAnimationFrame(rafId);
+      rafId = requestAnimationFrame(() => {
+        const cards = el.querySelectorAll('.kmp-process-step');
+        const scrollLeft = el.scrollLeft;
+        for (let i = 0; i < cards.length; i++) {
+          const cardLeft = cards[i].offsetLeft;
+          const cardWidth = cards[i].offsetWidth;
+          // active while card midpoint is still right of the viewport's left edge
+          if (cardLeft + cardWidth / 2 > scrollLeft) {
+            setActive(i);
+            return;
+          }
+        }
+        setActive(cards.length - 1);
+      });
+    };
+    el.addEventListener('scroll', onScroll, { passive: true });
+    return () => {
+      el.removeEventListener('scroll', onScroll);
+      if (rafId) cancelAnimationFrame(rafId);
+    };
+  }, []);
+
+  const fillPct = ((active + 1) / steps.length) * 100;
   return (
     <section className="kmp-section" id="process">
       <div className="kmp-sec-head">
@@ -912,42 +1004,49 @@ function Process() {
         <div className="kmp-process-bar-track">
           <div
             className="kmp-process-bar-fill"
-            style={{ width: `${((active + 1) / steps.length) * 100}%` }}
+            style={{ clipPath: `inset(0 ${100 - fillPct}% 0 0 round 999px)` }}
           ></div>
-          {steps.map((s, i) => (
-            <button
-              key={i}
-              className={`kmp-process-bar-node ${i <= active ? 'is-done' : ''} ${i === active ? 'is-active' : ''}`}
-              style={{ left: `${(i / (steps.length - 1)) * 100}%` }}
-              onClick={() => setActive(i)}
-              aria-label={s.t}
-            >
-              <span className="dot"></span>
-              <span className="cap">{STEP_NUMS[i]}</span>
-            </button>
-          ))}
+          {steps.map((s, i) => {
+            const stepCol = mixHex(STEP_START, STEP_END, stepProgress(i, steps.length));
+            return (
+              <button
+                key={i}
+                className={`kmp-process-bar-node ${i <= active ? 'is-done' : ''} ${i === active ? 'is-active' : ''}`}
+                style={{ left: `${(i / (steps.length - 1)) * 100}%`, '--step-color': stepCol }}
+                onClick={() => setActive(i)}
+                aria-label={s.t}
+              >
+                <span className="dot"></span>
+                <span className="cap">{STEP_NUMS[i]}</span>
+              </button>
+            );
+          })}
         </div>
         <div className="kmp-process-bar-meta">
           <span>{dict.process.stepLabel} {String(active + 1).padStart(2,'0')} / {String(steps.length).padStart(2,'0')}</span>
-          <span>{Math.round(((active + 1) / steps.length) * 100)}%</span>
+          <span>{Math.round(fillPct)}%</span>
         </div>
       </div>
 
-      <div className="kmp-process">
-        {steps.map((s, i) => (
-          <div
-            className={`kmp-process-step ${i === active ? 'is-active' : ''} ${i < active ? 'is-done' : ''}`}
-            key={i}
-            onMouseEnter={() => setActive(i)}
-          >
-            <div className="step-row">
-              <div className="step-num">{STEP_NUMS[i]}</div>
-              <div className="step-dur">{s.dur}</div>
+      <div className="kmp-process" ref={scrollerRef}>
+        {steps.map((s, i) => {
+          const cardCol = mixHex(CARD_START, STEP_END, stepProgress(i, steps.length));
+          return (
+            <div
+              className={`kmp-process-step ${i === active ? 'is-active' : ''} ${i < active ? 'is-done' : ''}`}
+              key={i}
+              style={{ '--card-color': cardCol }}
+              onMouseEnter={() => setActive(i)}
+            >
+              <div className="step-row">
+                <div className="step-num">{STEP_NUMS[i]}</div>
+                <div className="step-dur">{s.dur}</div>
+              </div>
+              <h4>{s.t}</h4>
+              <p dangerouslySetInnerHTML={{ __html: s.d }} />
             </div>
-            <h4>{s.t}</h4>
-            <p dangerouslySetInnerHTML={{ __html: s.d }} />
-          </div>
-        ))}
+          );
+        })}
       </div>
     </section>
   );
