@@ -826,6 +826,11 @@ function ServicePreview({ kind }) {
   return null;
 }
 
+const SERVICE_PHOTOS = {
+  identity: 'assets/uxui-creative.png',
+  uxui: 'assets/uxui-toggles.png',
+};
+
 function Services() {
   const { dict } = window.useT();
   const wrapRef = useRef(null);
@@ -893,14 +898,22 @@ function Services() {
           className={`kmp-service-preview ${active !== null ? 'is-on' : ''}`}
           aria-hidden="true"
         >
-          {SERVICE_META.map((s, i) => (
+          {SERVICE_META.map((s, i) => {
+            const photo = SERVICE_PHOTOS[s.preview];
+            const hasScene = window.ServiceScene && ['web', 'dev', 'smm', 'outsource', 'ai'].includes(s.preview);
+            return (
             <div
               key={s.num}
-              className={`kmp-service-preview-tile ${active === i ? 'is-on' : ''}`}
+              className={`kmp-service-preview-tile ${photo ? 'is-photo' : ''} ${hasScene ? 'is-scene' : ''} ${active === i ? 'is-on' : ''}`}
             >
-              <ServicePreview kind={s.preview} />
+              {photo
+                ? <img src={photo} alt="" className="kmp-service-preview-img" />
+                : hasScene
+                ? <window.ServiceScene kind={s.preview} />
+                : <ServicePreview kind={s.preview} />}
             </div>
-          ))}
+            );
+          })}
         </div>
       </div>
     </section>

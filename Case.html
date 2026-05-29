@@ -10,21 +10,24 @@
 <body>
 
 <nav class="cs-nav">
-  <a href="Landing.html" class="cs-nav-back">
-    <span style="font-size:16px">←</span> К проектам
+  <a href="Landing.html#works" class="cs-nav-back">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M14 6l-6 6 6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    <span class="cs-nav-back-txt">К проектам</span>
   </a>
-  <a href="Landing.html" class="cs-nav-logo" style="gap:12px;">
-    <svg viewBox="0 0 32 32" width="28" height="28" aria-hidden="true">
-      <g fill="rgba(255,255,255,0.95)">
-        <rect x="12.5" y="2.5" width="7" height="7" rx="1" transform="rotate(45 16 6)"/>
-        <rect x="2.5" y="12.5" width="7" height="7" rx="1" transform="rotate(45 6 16)"/>
-        <rect x="22.5" y="12.5" width="7" height="7" rx="1" transform="rotate(45 26 16)"/>
-        <rect x="12.5" y="22.5" width="7" height="7" rx="1" transform="rotate(45 16 26)"/>
-      </g>
-    </svg>
-    <span>Component<sup style="font-size:10px;color:var(--bg-glow);font-weight:500">®</sup></span>
+  <a href="Landing.html" class="cs-nav-logo" aria-label="Component Studio">
+    <img src="assets/Logo.svg" alt="Компонент — Студия дизайна" class="cs-nav-logo-img" />
   </a>
-  <a href="Landing.html#contact" class="cs-nav-cta">Связаться</a>
+  <div class="cs-nav-right">
+    <div class="cs-lang" id="cs-lang">
+      <button type="button" class="cs-lang-trigger" aria-haspopup="listbox" aria-expanded="false">
+        <span class="cs-lang-flag" data-flag></span>
+        <span class="cs-lang-label" data-label>RU</span>
+        <svg class="cs-lang-caret" viewBox="0 0 12 12" width="12" height="12" aria-hidden="true"><path d="M3 4.5 L6 7.5 L9 4.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <div class="cs-lang-menu" role="listbox"></div>
+    </div>
+    <a href="Landing.html#contact" class="cs-nav-cta">Связаться</a>
+  </div>
 </nav>
 
 <main id="cs-root" class="cs-wrap"></main>
@@ -44,6 +47,12 @@
 
   document.title = `${data.name} — Кейс · Component®`;
 
+  // Per-case accent pulled from the cover image — recolors every purple glow,
+  // em-italic, number badge, hover and CTA on the page.
+  if (data.accent) {
+    document.documentElement.style.setProperty('--acc', data.accent);
+  }
+
   const catLabels = data.cats.map(c => window.CAT_LABEL[c] || c);
   const otherCases = window.CASES.filter(c => c.id !== data.id).slice(0, 3);
   // pick 3 others, looping after current
@@ -51,8 +60,6 @@
   const ordered = [...window.CASES.slice(idx + 1), ...window.CASES.slice(0, idx)].slice(0, 3);
 
   root.innerHTML = `
-    <div class="cs-eyebrow"><span class="dot"></span> Кейс № ${data.num} / ${data.year}</div>
-
     <h1 class="cs-title">${data.name}</h1>
 
     <p class="cs-lead">${data.lead}</p>
@@ -104,17 +111,6 @@
       </div>
     </section>
 
-    ${data.stats && data.stats.length ? `
-      <div class="cs-stats-row cs-reveal">
-        ${data.stats.map(s => `
-          <div class="cs-stat">
-            <div class="v">${s.v}</div>
-            <div class="l">${s.l}</div>
-          </div>
-        `).join('')}
-      </div>
-    ` : ''}
-
     ${data.gallery && data.gallery.length ? `
       <section class="cs-gallery">
         ${data.gallery.map((g, i) => `
@@ -131,6 +127,24 @@
         `).join('')}
       </section>
     ` : ''}
+
+    <section class="cs-team-sec cs-reveal" style="margin-top:80px">
+      <h2 class="cs-team-sec-title">Команда</h2>
+      <div class="cs-stats-row">
+        <div class="cs-stat">
+          <div class="v">Диана</div>
+          <div class="l">Менеджер проекта</div>
+        </div>
+        <div class="cs-stat">
+          <div class="v">Илья</div>
+          <div class="l">Продуктовый дизайнер</div>
+        </div>
+        <div class="cs-stat">
+          <div class="v">Кирилл</div>
+          <div class="l">Фронтенд разработчик</div>
+        </div>
+      </div>
+    </section>
 
     <section class="cs-reveal" style="margin-top:80px">
       <div class="cs-others-head">
@@ -173,6 +187,81 @@
 
   // Scroll to top on case change
   window.scrollTo({ top: 0, behavior: 'instant' });
+})();
+</script>
+
+<script>
+/* Header language switcher — mirrors the main site (persists to kmp-lang) */
+(function () {
+  const LANGS = [
+    { id: 'ru', label: 'RU', flag: '<svg viewBox="0 0 18 12" width="18" height="12"><rect width="18" height="12" fill="#fff"/><rect y="4" width="18" height="4" fill="#0039A6"/><rect y="8" width="18" height="4" fill="#D52B1E"/></svg>' },
+    { id: 'en', label: 'EN', flag: '<svg viewBox="0 0 18 12" width="18" height="12"><rect width="18" height="12" fill="#012169"/><path d="M0,0 L18,12 M18,0 L0,12" stroke="#fff" stroke-width="2.4"/><path d="M9,0 V12 M0,6 H18" stroke="#fff" stroke-width="3.4"/><path d="M9,0 V12 M0,6 H18" stroke="#C8102E" stroke-width="2"/></svg>' },
+    { id: 'es', label: 'ES', flag: '<svg viewBox="0 0 18 12" width="18" height="12"><rect width="18" height="12" fill="#AA151B"/><rect y="3" width="18" height="6" fill="#F1BF00"/></svg>' },
+  ];
+  const CHROME = {
+    ru: { back: 'К проектам', cta: 'Связаться' },
+    en: { back: 'To projects', cta: 'Get in touch' },
+    es: { back: 'A proyectos', cta: 'Contactar' },
+  };
+
+  function getLang() {
+    try { const s = localStorage.getItem('kmp-lang'); if (s && CHROME[s]) return s; } catch (e) {}
+    return 'ru';
+  }
+
+  const wrap = document.getElementById('cs-lang');
+  const trigger = wrap.querySelector('.cs-lang-trigger');
+  const menu = wrap.querySelector('.cs-lang-menu');
+  const flagEl = wrap.querySelector('[data-flag]');
+  const labelEl = wrap.querySelector('[data-label]');
+  const backTxt = document.querySelector('.cs-nav-back-txt');
+  const cta = document.querySelector('.cs-nav-cta');
+
+  let lang = getLang();
+
+  function applyChrome() {
+    const c = CHROME[lang] || CHROME.ru;
+    if (backTxt) backTxt.textContent = c.back;
+    if (cta) cta.textContent = c.cta;
+    document.documentElement.lang = lang;
+    const cur = LANGS.find(l => l.id === lang) || LANGS[0];
+    flagEl.innerHTML = cur.flag;
+    labelEl.textContent = cur.label;
+  }
+
+  function renderMenu() {
+    menu.innerHTML = LANGS.map(l => `
+      <button type="button" role="option" data-lang="${l.id}" class="cs-lang-option ${l.id === lang ? 'is-active' : ''}" aria-selected="${l.id === lang}">
+        <span class="cs-lang-flag">${l.flag}</span>
+        <span class="cs-lang-label">${l.label}</span>
+        ${l.id === lang ? '<svg class="cs-lang-check" viewBox="0 0 14 14" width="14" height="14"><path d="M3 7.5 L6 10.5 L11 4.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>' : ''}
+      </button>
+    `).join('');
+  }
+
+  function setOpen(open) {
+    wrap.classList.toggle('is-open', open);
+    trigger.setAttribute('aria-expanded', open ? 'true' : 'false');
+  }
+
+  trigger.addEventListener('click', (e) => {
+    e.stopPropagation();
+    setOpen(!wrap.classList.contains('is-open'));
+  });
+  menu.addEventListener('click', (e) => {
+    const btn = e.target.closest('[data-lang]');
+    if (!btn) return;
+    lang = btn.dataset.lang;
+    try { localStorage.setItem('kmp-lang', lang); } catch (err) {}
+    applyChrome();
+    renderMenu();
+    setOpen(false);
+  });
+  document.addEventListener('mousedown', (e) => { if (!wrap.contains(e.target)) setOpen(false); });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') setOpen(false); });
+
+  applyChrome();
+  renderMenu();
 })();
 </script>
 </body>

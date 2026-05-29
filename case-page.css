@@ -52,8 +52,8 @@
   align-items: center; justify-content: center;
   width: 36px; height: 36px;
   border-radius: 50%;
-  background: rgba(168, 125, 255, 0.18);
-  border: 1px solid rgba(168, 125, 255, 0.35);
+  background: rgb(from var(--acc) r g b / 0.18);
+  border: 1px solid rgb(from var(--acc) r g b / 0.35);
   color: #fff;
   font-size: 13px;
   font-weight: 700;
@@ -110,6 +110,97 @@
   font-size: 14px;
   line-height: 1.4;
   color: var(--fg-dim);
+}
+
+/* ───── Team ───── */
+.cs-team-sec-title {
+  font-family: var(--display);
+  font-size: clamp(36px, 4.5vw, 56px);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1;
+  margin-bottom: 56px;
+}
+.cs-team-sec .cs-stats-row {
+  margin: 0;
+  padding: 0;
+  gap: 16px;
+  background: none;
+  border: none;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+.cs-team-sec .cs-stats-row .cs-stat {
+  border: 1px solid var(--glass-border);
+  border-radius: 24px;
+  background: linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0.02));
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  position: relative;
+  overflow: hidden;
+  cursor: default;
+  transition: transform .4s cubic-bezier(.2,.8,.2,1), border-color .35s, box-shadow .4s, background .35s;
+}
+/* sweeping light streak */
+.cs-team-sec .cs-stats-row .cs-stat::after {
+  content: '';
+  position: absolute;
+  top: -10%;
+  left: -70%;
+  width: 50%;
+  height: 120%;
+  background: linear-gradient(100deg, transparent, rgba(255,255,255,0.22), transparent);
+  transform: skewX(-18deg);
+  pointer-events: none;
+}
+.cs-team-sec .cs-stats-row .cs-stat:hover {
+  transform: translateY(-9px) rotate(-1.5deg) scale(1.015);
+  border-color: rgb(from var(--acc) r g b / 0.6);
+  background: linear-gradient(135deg, rgb(from var(--acc) r g b / 0.18), rgba(255,255,255,0.03));
+  box-shadow: 0 28px 54px -18px rgb(from var(--acc-deep) r g b / 0.55), 0 0 0 1px rgb(from var(--acc) r g b / 0.25);
+}
+.cs-team-sec .cs-stats-row .cs-stat:hover::after { animation: csSheen .75s ease; }
+@keyframes csSheen { from { left: -70%; } to { left: 130%; } }
+
+.cs-team-sec .cs-stat .v {
+  display: inline-block;
+  transform-origin: left bottom;
+  font-size: clamp(26px, 2.6vw, 34px);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.05;
+  margin-bottom: 8px;
+  transition: color .35s;
+}
+.cs-team-sec .cs-stat:hover .v {
+  color: var(--bg-glow);
+  animation: csJelly .6s cubic-bezier(.34,1.56,.64,1);
+}
+@keyframes csJelly {
+  0%   { transform: scale(1) rotate(0deg); }
+  30%  { transform: scale(1.14, .9) rotate(-4deg); }
+  55%  { transform: scale(.95, 1.06) rotate(2.5deg); }
+  75%  { transform: scale(1.03, .98) rotate(-1deg); }
+  100% { transform: scale(1) rotate(0deg); }
+}
+.cs-team-sec .cs-stat .l {
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1.4;
+  color: var(--fg-dim);
+  transition: transform .35s ease, color .35s;
+}
+.cs-team-sec .cs-stat:hover .l {
+  transform: translateY(-2px);
+  color: #fff;
+}
+@media (prefers-reduced-motion: reduce) {
+  .cs-team-sec .cs-stats-row .cs-stat,
+  .cs-team-sec .cs-stat .v,
+  .cs-team-sec .cs-stat .l { transition: none; }
+  .cs-team-sec .cs-stat:hover { transform: none; }
+  .cs-team-sec .cs-stat:hover .v { animation: none; }
+  .cs-team-sec .cs-stats-row .cs-stat:hover::after { animation: none; }
 }
 
 /* ───── Other works ───── */
@@ -210,7 +301,7 @@
 .cs-bigcta {
   margin-top: 120px;
   padding: 80px 60px;
-  background: linear-gradient(135deg, rgba(168,125,255,0.18), rgba(168,125,255,0.04));
+  background: linear-gradient(135deg, rgb(from var(--acc) r g b / 0.18), rgb(from var(--acc) r g b / 0.04));
   border: 1px solid var(--glass-border);
   border-radius: 40px;
   text-align: center;

@@ -12,7 +12,7 @@ window.DICT = {
     hero: {
       titleL1: 'Компо', titleL2: 'нент',
       sub: 'Студия дизайна и разработки, готовая к\u00A0реализации проектов любой сложности — от\u00A0идентики до\u00A0интерфейсов.',
-      ctaStart: 'Начать проект', ctaWorks: 'Смотреть работы',
+      ctaStart: 'Обсудить проект', ctaWorks: 'Смотреть работы',
       stats: [
         { num: '82+', lbl: 'Реализованных проектов с\u00A02019 года' },
         { num: '14',  lbl: 'Наград и\u00A0признаний индустрии' },
@@ -139,7 +139,7 @@ window.DICT = {
     hero: {
       titleL1: 'Kompo', titleL2: 'nent',
       sub: 'A design and development studio, ready to deliver projects of any complexity — from identity to interfaces.',
-      ctaStart: 'Start a project', ctaWorks: 'View works',
+      ctaStart: 'Discuss a project', ctaWorks: 'View works',
       stats: [
         { num: '82+', lbl: 'Projects shipped since 2019' },
         { num: '14',  lbl: 'Industry awards and recognitions' },
@@ -266,7 +266,7 @@ window.DICT = {
     hero: {
       titleL1: 'Kompo', titleL2: 'nent',
       sub: 'Un estudio de diseño y desarrollo, listo para entregar proyectos de cualquier complejidad — desde la identidad hasta las interfaces.',
-      ctaStart: 'Iniciar proyecto', ctaWorks: 'Ver trabajos',
+      ctaStart: 'Discutir un proyecto', ctaWorks: 'Ver trabajos',
       stats: [
         { num: '82+', lbl: 'Proyectos entregados desde 2019' },
         { num: '14',  lbl: 'Premios y reconocimientos de la industria' },
