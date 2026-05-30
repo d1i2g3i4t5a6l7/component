@@ -307,6 +307,7 @@ function Marquee() {
 
 // ───── Projects ─────
 const PROJECTS = [
+  { id: 'greenclient', name: 'Проверка партнёра',         cover: 'cases/green-client.png',     cats: ['uxui', 'dev', 'landings'],   year: '2025', shape: 'wide',   swatch: '#3FC95B' },
   { id: 'phodo',      name: 'Phodo',                     cover: 'cases/phodo.webp',           cats: ['uxui', 'presentations'],     year: '2025', shape: 'wide',   swatch: '#7B5BFF' },
   { id: 'kovry',      name: 'Сибирские ковры',           cover: 'cases/sibirskie-kovry.webp', cats: ['landings'],                  year: '2025', shape: 'square', swatch: '#C8412B' },
   { id: 'lamoda',     name: 'Lamoda · Продавец',         cover: 'cases/lamoda.png',           cats: ['uxui', 'presentations'],     year: '2025', shape: 'square', swatch: '#FF4F1F' },
@@ -319,7 +320,7 @@ const PROJECTS = [
   { id: 'easysale',   name: 'EasySale',                  cover: 'cases/easysale.png',         cats: ['presentations'],             year: '2025', shape: 'square', swatch: '#32C766' },
 ];
 
-const PROJECT_FILTER_IDS = ['all', 'uxui', 'landings', 'identity', 'presentations'];
+const PROJECT_FILTER_IDS = ['all', 'uxui', 'dev', 'landings', 'identity', 'presentations'];
 
 function Projects({ density }) {
   const { t, dict } = window.useT();
@@ -1094,18 +1095,59 @@ function FAQ() {
 // ───── Contact ─────
 function Contact() {
   const { dict } = window.useT();
+  const c = dict.contact;
+  const [email, setEmail] = React.useState('');
+  const [name, setName] = React.useState('');
+  const [promo, setPromo] = React.useState('');
+  const [descr, setDescr] = React.useState('');
+  const [status, setStatus] = React.useState('idle'); // idle | sending | sent | error
+
+  const valid = email.trim() !== '' && name.trim() !== '';
+
+  async function handleSubmit(e) {
+    e.preventDefault();
+    if (!valid || status === 'sending') return;
+    setStatus('sending');
+    try {
+      const res = await fetch('https://formsubmit.co/ajax/cheremisinilya@yandex.ru', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify({
+          _subject: 'Новая заявка с сайта Component Studio',
+          'Почта / telegram': email,
+          'ФИО': name,
+          'Промокод': promo || '—',
+          'Описание проекта': descr || '—',
+        }),
+      });
+      if (!res.ok) throw new Error('bad status');
+      setStatus('sent');
+      setEmail(''); setName(''); setPromo(''); setDescr('');
+    } catch (err) {
+      setStatus('error');
+    }
+  }
+
   return (
     <section className="kmp-section kmp-contact-section" id="contact">
       <div className="kmp-footer-card kmp-contact">
-        <h2 className="kmp-contact-title">{dict.contact.title}</h2>
-        <p className="kmp-contact-sub" dangerouslySetInnerHTML={{ __html: dict.contact.sub }} />
-        <form className="kmp-contact-form" onSubmit={(e) => e.preventDefault()}>
-          <input type="text" placeholder={dict.contact.fields.email} />
-          <input type="text" placeholder={dict.contact.fields.name} />
-          <input type="text" placeholder={dict.contact.fields.promo} />
-          <textarea rows="4" placeholder={dict.contact.fields.descr}></textarea>
-          <button type="submit" className="kmp-contact-submit">{dict.contact.submit}</button>
-          <p className="kmp-contact-legal" dangerouslySetInnerHTML={{ __html: dict.contact.legal }} />
+        <h2 className="kmp-contact-title">{c.title}</h2>
+        <p className="kmp-contact-sub" dangerouslySetInnerHTML={{ __html: c.sub }} />
+        <form className="kmp-contact-form" onSubmit={handleSubmit}>
+          <input type="text" placeholder={c.fields.email} value={email}
+            onChange={(e) => { setEmail(e.target.value); if (status !== 'idle' && status !== 'sending') setStatus('idle'); }} />
+          <input type="text" placeholder={c.fields.name} value={name}
+            onChange={(e) => { setName(e.target.value); if (status !== 'idle' && status !== 'sending') setStatus('idle'); }} />
+          <input type="text" placeholder={c.fields.promo} value={promo}
+            onChange={(e) => setPromo(e.target.value)} />
+          <textarea rows="4" placeholder={c.fields.descr} value={descr}
+            onChange={(e) => setDescr(e.target.value)}></textarea>
+          <button type="submit" className="kmp-contact-submit" disabled={!valid || status === 'sending'}>
+            {status === 'sending' ? c.sending : c.submit}
+          </button>
+          {status === 'sent' && <p className="kmp-contact-status is-ok">{c.success}</p>}
+          {status === 'error' && <p className="kmp-contact-status is-err">{c.error}</p>}
+          <p className="kmp-contact-legal" dangerouslySetInnerHTML={{ __html: c.legal }} />
         </form>
       </div>
     </section>

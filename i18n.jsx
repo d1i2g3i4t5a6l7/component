@@ -23,10 +23,10 @@ window.DICT = {
     marquee: ['Брендинг','Веб-дизайн','Интерфейсы','Типографика','Анимация','Айдентика'],
     projects: {
       eyebrow: 'Проекты', titleA: 'Избранные', titleB: 'работы', showMore: 'Показать ещё',
-      filters: { all: 'Все', uxui: 'UX/UI', landings: 'Лендинги', identity: 'Айдентика', presentations: 'Презентации' },
-      cats:    { uxui: 'UX/UI', landings: 'Лендинг', identity: 'Айдентика', presentations: 'Презентации' },
+      filters: { all: 'Все', uxui: 'UX/UI', dev: 'Разработка', landings: 'Лендинги', identity: 'Айдентика', presentations: 'Презентации' },
+      cats:    { uxui: 'UX/UI', dev: 'Разработка', landings: 'Лендинг', identity: 'Айдентика', presentations: 'Презентации' },
       names: {
-        phodo: 'Phodo', kovry: 'Сибирские ковры', lamoda: 'Lamoda · Продавец', colorforce: 'ColorForce',
+        greenclient: 'Проверка партнёра', phodo: 'Phodo', kovry: 'Сибирские ковры', lamoda: 'Lamoda · Продавец', colorforce: 'ColorForce',
         misis: 'МИСИС · Mini App', innovators: 'Академия инноваторов', mpit: 'МПИТ',
         course: 'Онлайн-курс', quantum: 'Samarkand Quantum Centre', easysale: 'EasySale',
       },
@@ -86,6 +86,9 @@ window.DICT = {
       sub: 'Мы готовы обсудить ваш проект<br/>и предложить лучшие решения<br/>для его реализации',
       fields: { email: 'Введите почту / ник в telegram', name: 'Введите ФИО', promo: 'Введите промокод', descr: 'Введите описание проекта' },
       submit: 'Отправить',
+      sending: 'Отправляем…',
+      success: 'Заявка отправлена! Мы свяжемся с вами в ближайшее время.',
+      error: 'Не удалось отправить. Попробуйте ещё раз или напишите нам на почту.',
       legal: 'Нажимая кнопку «Связаться», вы&nbsp;соглашаетесь с&nbsp;политикой обработки персональных данных.',
     },
     footer: {
@@ -150,10 +153,10 @@ window.DICT = {
     marquee: ['Branding','Web design','Interfaces','Typography','Motion','Identity'],
     projects: {
       eyebrow: 'Projects', titleA: 'Selected', titleB: 'works', showMore: 'Show more',
-      filters: { all: 'All', uxui: 'UX/UI', landings: 'Landings', identity: 'Identity', presentations: 'Presentations' },
-      cats:    { uxui: 'UX/UI', landings: 'Landing', identity: 'Identity', presentations: 'Presentations' },
+      filters: { all: 'All', uxui: 'UX/UI', dev: 'Development', landings: 'Landings', identity: 'Identity', presentations: 'Presentations' },
+      cats:    { uxui: 'UX/UI', dev: 'Development', landings: 'Landing', identity: 'Identity', presentations: 'Presentations' },
       names: {
-        phodo: 'Phodo', kovry: 'Siberian Carpets', lamoda: 'Lamoda · Seller', colorforce: 'ColorForce',
+        greenclient: 'Partner Check', phodo: 'Phodo', kovry: 'Siberian Carpets', lamoda: 'Lamoda · Seller', colorforce: 'ColorForce',
         misis: 'MISIS · Mini App', innovators: 'Innovators Academy', mpit: 'MPIT',
         course: 'Online course', quantum: 'Samarkand Quantum Centre', easysale: 'EasySale',
       },
@@ -213,6 +216,9 @@ window.DICT = {
       sub: "We're ready to discuss your project<br/>and propose the best solutions<br/>to bring it to life",
       fields: { email: 'Email or Telegram handle', name: 'Your full name', promo: 'Promo code', descr: 'Project description' },
       submit: 'Send',
+      sending: 'Sending…',
+      success: 'Request sent! We’ll get back to you shortly.',
+      error: 'Could not send. Please try again or email us directly.',
       legal: "By clicking 'Send', you agree to our privacy policy.",
     },
     footer: {
@@ -277,10 +283,10 @@ window.DICT = {
     marquee: ['Branding','Diseño web','Interfaces','Tipografía','Animación','Identidad'],
     projects: {
       eyebrow: 'Proyectos', titleA: 'Trabajos', titleB: 'seleccionados', showMore: 'Ver más',
-      filters: { all: 'Todos', uxui: 'UX/UI', landings: 'Landings', identity: 'Identidad', presentations: 'Presentaciones' },
-      cats:    { uxui: 'UX/UI', landings: 'Landing', identity: 'Identidad', presentations: 'Presentaciones' },
+      filters: { all: 'Todos', uxui: 'UX/UI', dev: 'Desarrollo', landings: 'Landings', identity: 'Identidad', presentations: 'Presentaciones' },
+      cats:    { uxui: 'UX/UI', dev: 'Desarrollo', landings: 'Landing', identity: 'Identidad', presentations: 'Presentaciones' },
       names: {
-        phodo: 'Phodo', kovry: 'Alfombras Siberianas', lamoda: 'Lamoda · Vendedor', colorforce: 'ColorForce',
+        greenclient: 'Verificación de socio', phodo: 'Phodo', kovry: 'Alfombras Siberianas', lamoda: 'Lamoda · Vendedor', colorforce: 'ColorForce',
         misis: 'MISIS · Mini App', innovators: 'Academia de Innovadores', mpit: 'MPIT',
         course: 'Curso online', quantum: 'Samarkand Quantum Centre', easysale: 'EasySale',
       },
@@ -340,6 +346,9 @@ window.DICT = {
       sub: 'Estamos listos para conversar sobre tu proyecto<br/>y proponer las mejores soluciones<br/>para hacerlo realidad',
       fields: { email: 'Email o usuario de Telegram', name: 'Tu nombre completo', promo: 'Código promocional', descr: 'Descripción del proyecto' },
       submit: 'Enviar',
+      sending: 'Enviando…',
+      success: '¡Solicitud enviada! Te responderemos en breve.',
+      error: 'No se pudo enviar. Inténtalo de nuevo o escríbenos por correo.',
       legal: 'Al hacer clic en «Enviar», aceptas la política de privacidad.',
     },
     footer: {
