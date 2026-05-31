@@ -594,8 +594,25 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
   display: flex; justify-content: space-between; align-items: end;
   z-index: 2;
 }
-.kmp-project-card .label-l { display: flex; flex-direction: column; gap: 4px; }
-.kmp-project-card .label-l .tag { font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--fg-mute); font-family: var(--body); font-weight: 500; }
+.kmp-project-card .label-l { display: flex; flex-direction: column; gap: 10px; }
+.kmp-project-card .label-l .tags { display: flex; flex-wrap: wrap; gap: 6px; }
+.kmp-project-card .label-l .chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 5px 11px;
+  font-size: 11px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--fg);
+  font-family: var(--body);
+  font-weight: 500;
+  background: rgba(255,255,255,0.12);
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 999px;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+.kmp-project-card .label-l .chip-year { color: var(--fg-mute); background: rgba(255,255,255,0.06); }
 .kmp-project-card .label-l .name { font-family: var(--display); font-size: 28px; font-weight: 700; letter-spacing: -0.02em; }
 .kmp-project-card .label-r {
   width: 44px; height: 44px;
@@ -611,6 +628,89 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
 
 /* Show-more button — visible only on mobile (rules added inside the 720px breakpoint) */
 .kmp-projects-more { display: none; }
+
+/* "Все проекты" — featured → full index link (visible on all viewports) */
+.kmp-projects-all {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  margin: 40px auto 0;
+  padding: 16px 28px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--fg);
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background 0.25s, border-color 0.25s, transform 0.2s, box-shadow 0.25s;
+}
+.kmp-projects-all sup {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--bg-glow);
+  margin-left: -4px;
+  transform: translateY(-6px);
+}
+.kmp-projects-all-arrow {
+  display: inline-flex;
+  transition: transform 0.25s;
+}
+.kmp-projects-all:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.4);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+}
+.kmp-projects-all:hover .kmp-projects-all-arrow { transform: translateX(4px); }
+/* Center the link within the section */
+#works > .kmp-projects-all { display: flex; width: fit-content; }
+
+/* ───── Projects index page (Projects.html) ───── */
+.kpp-wrap {
+  position: relative;
+  z-index: 1;
+  max-width: 1320px;
+  margin: 0 auto;
+  padding: 120px 48px 120px;
+}
+.kpp-nav { margin-bottom: 8px; }
+.kpp-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--fg-dim);
+  text-decoration: none;
+  font-size: 15px;
+  font-weight: 500;
+  transition: color 0.2s;
+}
+.kpp-back:hover { color: var(--fg); }
+.kpp-back-arrow { transition: transform 0.2s; }
+.kpp-back:hover .kpp-back-arrow { transform: translateX(-4px); }
+.kpp-head {
+  padding: 48px 0 36px;
+}
+.kpp-eyebrow {
+  display: inline-block;
+  font-size: 14px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--fg-dim);
+  margin-bottom: 18px;
+}
+.kpp-title {
+  font-size: clamp(48px, 7vw, 104px);
+  line-height: 0.95;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin: 0;
+}
+.kpp-title span { color: var(--bg-glow); }
+.kpp-filters { margin-bottom: 36px; }
+.kpp-grid { margin-bottom: 0; }
 
 /* ───── Services ───── */
 .kmp-services {
@@ -1277,7 +1377,14 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
   color: #1a0f4a;
   letter-spacing: -0.005em;
 }
-.kmp-cookie-actions {
+.kmp-cookie-text a {
+  color: #1a0f4a;
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  transition: opacity 0.18s;
+}
+.kmp-cookie-text a:hover { opacity: 0.65; }
   display: flex;
   gap: 10px;
   flex-shrink: 0;
@@ -1462,7 +1569,7 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
   .kmp-project-card { border-radius: 18px; }
   .kmp-project-card .label { bottom: 16px; left: 18px; right: 18px; }
   .kmp-project-card .label-l .name { font-size: 20px; }
-  .kmp-project-card .label-l .tag { font-size: 10px; }
+  .kmp-project-card .label-l .chip { font-size: 10px; padding: 4px 9px; }
   .kmp-project-card .label-r { width: 36px; height: 36px; font-size: 16px; }
 
   /* Collapsed favorites: show only the first 3 cards on mobile */
@@ -1634,4 +1741,130 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
   .kmp-hero-title { font-size: 22vw; }
   .kmp-sec-head h2 { font-size: clamp(34px, 9.5vw, 50px); }
   .kmp-marquee-item { font-size: 38px; }
+}
+
+
+/* ═════════════════════════════════════════════════════════
+   ───── MOBILE MENU (floating FAB, bottom-left) ─────
+   ═════════════════════════════════════════════════════════ */
+.kmp-mmenu { display: none; }
+
+/* Visible wherever the nav pill collapses (≤ 1024px) */
+@media (max-width: 1024px) {
+  .kmp-mmenu { display: block; }
+
+  .kmp-mmenu-fab {
+    position: fixed;
+    left: 16px;
+    bottom: 16px;
+    z-index: 1200;
+    width: 56px;
+    height: 56px;
+    border-radius: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(20, 8, 70, 0.62);
+    border: 1px solid rgba(255,255,255,0.16);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    box-shadow: 0 12px 34px rgba(10, 4, 40, 0.42);
+    cursor: pointer;
+    transition: transform .28s cubic-bezier(.2,.8,.2,1), background .2s, border-color .2s;
+  }
+  .kmp-mmenu-fab:active { transform: scale(0.94); }
+  .kmp-mmenu.is-open .kmp-mmenu-fab {
+    background: var(--fg);
+    border-color: var(--fg);
+  }
+
+  .kmp-mmenu-fab-ico {
+    position: relative;
+    width: 22px;
+    height: 16px;
+  }
+  .kmp-mmenu-fab-ico span {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    border-radius: 2px;
+    background: rgba(255,255,255,0.95);
+    transition: transform .3s cubic-bezier(.2,.8,.2,1), opacity .2s;
+  }
+  .kmp-mmenu-fab-ico span:nth-child(1) { top: 0; }
+  .kmp-mmenu-fab-ico span:nth-child(2) { top: 7px; }
+  .kmp-mmenu-fab-ico span:nth-child(3) { top: 14px; }
+  .kmp-mmenu.is-open .kmp-mmenu-fab-ico span { background: var(--accent-ink); }
+  .kmp-mmenu.is-open .kmp-mmenu-fab-ico span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .kmp-mmenu.is-open .kmp-mmenu-fab-ico span:nth-child(2) { opacity: 0; }
+  .kmp-mmenu.is-open .kmp-mmenu-fab-ico span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+  /* Scrim */
+  .kmp-mmenu-scrim {
+    position: fixed;
+    inset: 0;
+    z-index: 1150;
+    background: rgba(8, 3, 32, 0.5);
+    backdrop-filter: blur(2px);
+    -webkit-backdrop-filter: blur(2px);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .3s ease;
+  }
+  .kmp-mmenu.is-open .kmp-mmenu-scrim { opacity: 1; pointer-events: auto; }
+
+  /* Sheet of links anchored above the FAB */
+  .kmp-mmenu-sheet {
+    position: fixed;
+    left: 16px;
+    bottom: 84px;
+    z-index: 1200;
+    width: min(280px, calc(100vw - 32px));
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 10px;
+    background: rgba(20, 8, 70, 0.72);
+    border: 1px solid rgba(255,255,255,0.14);
+    backdrop-filter: blur(22px);
+    -webkit-backdrop-filter: blur(22px);
+    border-radius: 22px;
+    box-shadow: 0 18px 50px rgba(10, 4, 40, 0.5);
+    transform-origin: left bottom;
+    opacity: 0;
+    transform: translateY(12px) scale(0.96);
+    pointer-events: none;
+    transition: opacity .26s ease, transform .3s cubic-bezier(.2,.85,.25,1);
+  }
+  .kmp-mmenu.is-open .kmp-mmenu-sheet {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    pointer-events: auto;
+  }
+
+  .kmp-mmenu-link {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px 18px;
+    border-radius: 14px;
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--fg);
+    transition: background .2s;
+  }
+  .kmp-mmenu-link:active { background: rgba(255,255,255,0.1); }
+  .kmp-mmenu-arrow { color: var(--fg-dim); font-size: 15px; }
+
+  .kmp-mmenu-cta {
+    margin-top: 6px;
+    padding: 15px 18px;
+    text-align: center;
+    background: var(--fg);
+    color: var(--accent-ink);
+    border-radius: 14px;
+    font-size: 16px;
+    font-weight: 600;
+  }
 }

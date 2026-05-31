@@ -11,7 +11,7 @@ window.DICT = {
     nav: { projects: 'Проекты', services: 'Услуги', process: 'Процесс', faq: 'FAQ', cta: 'Связаться', studio: 'Студия дизайна' },
     hero: {
       titleL1: 'Компо', titleL2: 'нент',
-      sub: 'Студия дизайна и разработки, готовая к\u00A0реализации проектов любой сложности — от\u00A0идентики до\u00A0интерфейсов.',
+      sub: 'Студия дизайна и разработки, готовая к\u00A0реализации проектов любой сложности — от\u00A0айдентики до\u00A0полноценных сервисов.',
       ctaStart: 'Обсудить проект', ctaWorks: 'Смотреть работы',
       stats: [
         { num: '82+', lbl: 'Реализованных проектов с\u00A02019 года' },
@@ -20,9 +20,10 @@ window.DICT = {
         { num: '98%', lbl: 'Клиентов возвращаются с\u00A0новыми задачами' },
       ],
     },
-    marquee: ['Брендинг','Веб-дизайн','Интерфейсы','Типографика','Анимация','Айдентика'],
+    marquee: ['Брендинг','Веб-дизайн','Интерфейсы','Типографика','Анимация','Айдентика','Разработка и ИИ'],
     projects: {
       eyebrow: 'Проекты', titleA: 'Избранные', titleB: 'работы', showMore: 'Показать ещё',
+      allProjects: 'Все проекты', allTitleA: 'Все', allTitleB: 'проекты', home: 'На главную',
       filters: { all: 'Все', uxui: 'UX/UI', dev: 'Разработка', landings: 'Лендинги', identity: 'Айдентика', presentations: 'Презентации' },
       cats:    { uxui: 'UX/UI', dev: 'Разработка', landings: 'Лендинг', identity: 'Айдентика', presentations: 'Презентации' },
       names: {
@@ -124,7 +125,7 @@ window.DICT = {
       madeIn:     'Сделано с\u00A0вниманием',
     },
     cookies: {
-      text:    'Этот веб-сайт использует файлы cookie, чтобы обеспечить вам наилучший опыт',
+      text:    'Этот сайт использует файлы cookies. Продолжая пользоваться сайтом, вы соглашаетесь с <a href="Privacy.html">Политикой конфиденциальности</a>.',
       accept:  'ОК',
       decline: 'Отказаться',
     },
@@ -140,7 +141,7 @@ window.DICT = {
   en: {
     nav: { projects: 'Projects', services: 'Services', process: 'Process', faq: 'FAQ', cta: 'Get in touch', studio: 'Design studio' },
     hero: {
-      titleL1: 'Kompo', titleL2: 'nent',
+      titleL1: 'Compo', titleL2: 'nent',
       sub: 'A design and development studio, ready to deliver projects of any complexity — from identity to interfaces.',
       ctaStart: 'Discuss a project', ctaWorks: 'View works',
       stats: [
@@ -150,9 +151,10 @@ window.DICT = {
         { num: '98%', lbl: 'Clients return with new briefs' },
       ],
     },
-    marquee: ['Branding','Web design','Interfaces','Typography','Motion','Identity'],
+    marquee: ['Branding','Web design','Interfaces','Typography','Motion','Identity','Development & AI'],
     projects: {
       eyebrow: 'Projects', titleA: 'Selected', titleB: 'works', showMore: 'Show more',
+      allProjects: 'All projects', allTitleA: 'All', allTitleB: 'projects', home: 'Back home',
       filters: { all: 'All', uxui: 'UX/UI', dev: 'Development', landings: 'Landings', identity: 'Identity', presentations: 'Presentations' },
       cats:    { uxui: 'UX/UI', dev: 'Development', landings: 'Landing', identity: 'Identity', presentations: 'Presentations' },
       names: {
@@ -250,11 +252,11 @@ window.DICT = {
         ],
       },
       navTitle:   'Navigation',
-      copyright:  '2026 Komponent®',
+      copyright:  '2026 Component®',
       madeIn:     'Made with care',
     },
     cookies: {
-      text:    'This website uses cookies to give you the best possible experience.',
+      text:    'This site uses cookies. By continuing to use the site, you agree to our <a href="Privacy.html">Privacy Policy</a>.',
       accept:  'OK',
       decline: 'Decline',
     },
@@ -270,7 +272,7 @@ window.DICT = {
   es: {
     nav: { projects: 'Proyectos', services: 'Servicios', process: 'Proceso', faq: 'FAQ', cta: 'Contactar', studio: 'Estudio de diseño' },
     hero: {
-      titleL1: 'Kompo', titleL2: 'nent',
+      titleL1: 'Compo', titleL2: 'nent',
       sub: 'Un estudio de diseño y desarrollo, listo para entregar proyectos de cualquier complejidad — desde la identidad hasta las interfaces.',
       ctaStart: 'Discutir un proyecto', ctaWorks: 'Ver trabajos',
       stats: [
@@ -280,9 +282,10 @@ window.DICT = {
         { num: '98%', lbl: 'Clientes que regresan con nuevos encargos' },
       ],
     },
-    marquee: ['Branding','Diseño web','Interfaces','Tipografía','Animación','Identidad'],
+    marquee: ['Branding','Diseño web','Interfaces','Tipografía','Animación','Identidad','Desarrollo e IA'],
     projects: {
       eyebrow: 'Proyectos', titleA: 'Trabajos', titleB: 'seleccionados', showMore: 'Ver más',
+      allProjects: 'Todos los proyectos', allTitleA: 'Todos los', allTitleB: 'proyectos', home: 'Al inicio',
       filters: { all: 'Todos', uxui: 'UX/UI', dev: 'Desarrollo', landings: 'Landings', identity: 'Identidad', presentations: 'Presentaciones' },
       cats:    { uxui: 'UX/UI', dev: 'Desarrollo', landings: 'Landing', identity: 'Identidad', presentations: 'Presentaciones' },
       names: {
@@ -380,11 +383,11 @@ window.DICT = {
         ],
       },
       navTitle:   'Navegación',
-      copyright:  '2026 Komponent®',
+      copyright:  '2026 Component®',
       madeIn:     'Hecho con cariño',
     },
     cookies: {
-      text:    'Este sitio web utiliza cookies para ofrecerte la mejor experiencia.',
+      text:    'Este sitio utiliza cookies. Al continuar usando el sitio, aceptas nuestra <a href="Privacy.html">Política de privacidad</a>.',
       accept:  'OK',
       decline: 'Rechazar',
     },

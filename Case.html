@@ -4,6 +4,28 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Кейс — Component®</title>
+<meta name="description" id="seo-desc" content="Кейс студии Component® — брендинг, веб-дизайн, интерфейсы и разработка." />
+<meta name="author" content="Component Studio" />
+<meta name="robots" content="index, follow, max-image-preview:large" />
+<meta name="theme-color" content="#1a0d4a" />
+<link rel="canonical" id="seo-canonical" href="https://componentstudio.ru/Case.html" />
+
+<link rel="icon" type="image/svg+xml" href="assets/Logo.svg" />
+<link rel="apple-touch-icon" href="assets/Logo.svg" />
+
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Component®" />
+<meta property="og:locale" content="ru_RU" />
+<meta property="og:url" id="seo-og-url" content="https://componentstudio.ru/Case.html" />
+<meta property="og:title" id="seo-og-title" content="Кейс — Component®" />
+<meta property="og:description" id="seo-og-desc" content="Кейс студии Component® — брендинг, веб-дизайн, интерфейсы и разработка." />
+<meta property="og:image" id="seo-og-image" content="https://componentstudio.ru/assets/og-image.png" />
+
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" id="seo-tw-title" content="Кейс — Component®" />
+<meta name="twitter:description" id="seo-tw-desc" content="Кейс студии Component®." />
+<meta name="twitter:image" id="seo-tw-image" content="https://componentstudio.ru/assets/og-image.png" />
+
 <link rel="stylesheet" href="case.css" />
 <link rel="stylesheet" href="case-page.css" />
 </head>
@@ -46,6 +68,26 @@
   }
 
   document.title = `${data.name} — Кейс · Component®`;
+
+  // Per-case SEO meta
+  (function () {
+    const url = `https://componentstudio.ru/Case.html?id=${data.id}`;
+    const desc = (data.lead || data.about || `Кейс студии Component® — ${data.name}.`).replace(/<[^>]*>/g, '').slice(0, 300);
+    const title = `${data.name} — Кейс · Component®`;
+    const img = data.cover && /^https?:/.test(data.cover)
+      ? data.cover
+      : 'https://componentstudio.ru/' + (data.cover || 'assets/og-image.png');
+    const set = (id, attr, val) => { const el = document.getElementById(id); if (el) el.setAttribute(attr, val); };
+    set('seo-desc', 'content', desc);
+    set('seo-canonical', 'href', url);
+    set('seo-og-url', 'content', url);
+    set('seo-og-title', 'content', title);
+    set('seo-og-desc', 'content', desc);
+    set('seo-og-image', 'content', img);
+    set('seo-tw-title', 'content', title);
+    set('seo-tw-desc', 'content', desc);
+    set('seo-tw-image', 'content', img);
+  })();
 
   // Per-case accent pulled from the cover image — recolors every purple glow,
   // em-italic, number badge, hover and CTA on the page.

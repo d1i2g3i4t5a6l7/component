@@ -305,37 +305,26 @@ function Marquee() {
   );
 }
 
-// ───── Projects ─────
-const PROJECTS = [
-  { id: 'greenclient', name: 'Проверка партнёра',         cover: 'cases/green-client.png',     cats: ['uxui', 'dev', 'landings'],   year: '2025', shape: 'wide',   swatch: '#3FC95B' },
-  { id: 'phodo',      name: 'Phodo',                     cover: 'cases/phodo.webp',           cats: ['uxui', 'presentations'],     year: '2025', shape: 'wide',   swatch: '#7B5BFF' },
-  { id: 'kovry',      name: 'Сибирские ковры',           cover: 'cases/sibirskie-kovry.webp', cats: ['landings'],                  year: '2025', shape: 'square', swatch: '#C8412B' },
-  { id: 'lamoda',     name: 'Lamoda · Продавец',         cover: 'cases/lamoda.png',           cats: ['uxui', 'presentations'],     year: '2025', shape: 'square', swatch: '#FF4F1F' },
-  { id: 'colorforce', name: 'ColorForce',                cover: 'cases/colorforce.png',       cats: ['landings'],                  year: '2025', shape: 'wide',   swatch: '#7FA8FF' },
-  { id: 'misis',      name: 'МИСИС · Mini App',          cover: 'cases/misis.png',            cats: ['uxui', 'presentations'],     year: '2025', shape: 'full',   swatch: '#2B5AE0' },
-  { id: 'innovators', name: 'Академия инноваторов',      cover: 'cases/innovators.png',       cats: ['identity', 'presentations'], year: '2025', shape: 'wide',   swatch: '#8FD9E0' },
-  { id: 'mpit',       name: 'МПИТ',                      cover: 'cases/mpit.png',             cats: ['identity', 'presentations'], year: '2025', shape: 'square', swatch: '#7B5BFF' },
-  { id: 'course',     name: 'Онлайн-курс',               cover: 'cases/online-course.png',    cats: ['identity', 'presentations'], year: '2025', shape: 'square', swatch: '#5B3CE0' },
-  { id: 'quantum',    name: 'Samarkand Quantum Centre',  cover: 'cases/quantum.png',          cats: ['identity'],                  year: '2025', shape: 'square', swatch: '#8B6BFF' },
-  { id: 'easysale',   name: 'EasySale',                  cover: 'cases/easysale.png',         cats: ['presentations'],             year: '2025', shape: 'square', swatch: '#32C766' },
-];
-
-const PROJECT_FILTER_IDS = ['all', 'uxui', 'dev', 'landings', 'identity', 'presentations'];
-
+// ───── Projects (featured) ─────
+// Data lives in projects-data.js (window.PROJECTS). The landing shows only the
+// first FEATURED_COUNT of the active filter; "Все проекты" links to Projects.html.
 function Projects({ density }) {
   const { t, dict } = window.useT();
   const [filter, setFilter] = useState('all');
-  const [showAll, setShowAll] = useState(false);
-  useEffect(() => { setShowAll(false); }, [filter]);
-  const list = filter === 'all' ? PROJECTS : PROJECTS.filter(p => p.cats.includes(filter));
+  const all = window.PROJECTS;
+  const ids = window.PROJECT_FILTER_IDS;
+  const N = window.FEATURED_COUNT || 4;
+  const list = filter === 'all' ? all : all.filter(p => p.cats.includes(filter));
+  const featured = list.slice(0, N);
+  const moreHref = filter === 'all' ? 'Projects.html' : `Projects.html?filter=${filter}`;
   return (
     <section className="kmp-section" id="works">
       <div className="kmp-sec-head">
         <h2>{t('projects.titleA')} <span>{t('projects.titleB')}</span></h2>
       </div>
       <div className="kmp-proj-filters">
-        {PROJECT_FILTER_IDS.map(id => {
-          const count = id === 'all' ? PROJECTS.length : PROJECTS.filter(p => p.cats.includes(id)).length;
+        {ids.map(id => {
+          const count = id === 'all' ? all.length : all.filter(p => p.cats.includes(id)).length;
           return (
             <button
               key={id}
@@ -348,15 +337,19 @@ function Projects({ density }) {
           );
         })}
       </div>
-      <div className={`kmp-projects-grid is-bento ${density === 'compact' ? 'is-compact' : ''} ${showAll ? 'is-expanded' : 'is-collapsed'}`}>
-        {list.map(p => (
+      <div className={`kmp-projects-grid is-bento ${density === 'compact' ? 'is-compact' : ''}`}>
+        {featured.map(p => (
           <a key={p.id} href={`Case.html?id=${p.id}`} className={`kmp-project-card shape-${p.shape}`}>
             <div className="stripe" style={{ '--swatch': p.swatch }}></div>
             <div className="cover" style={{ backgroundImage: `url(${p.cover})` }}></div>
             <div className="scrim"></div>
             <div className="label">
               <div className="label-l">
-                <span className="tag">{p.cats.map(c => dict.projects.cats[c]).join(' · ')} · {p.year}</span>
+                <div className="tags">
+                  {p.cats.map(c => (
+                    <span key={c} className="chip">{dict.projects.cats[c]}</span>
+                  ))}
+                </div>
                 <span className="name">{dict.projects.names[p.id] || p.name}</span>
               </div>
               <div className="label-r">→</div>
@@ -364,11 +357,10 @@ function Projects({ density }) {
           </a>
         ))}
       </div>
-      {!showAll && list.length > 3 && (
-        <button type="button" className="kmp-projects-more" onClick={() => setShowAll(true)}>
-          {dict.projects.showMore}
-        </button>
-      )}
+      <a className="kmp-projects-all" href={moreHref}>
+        <span>{dict.projects.allProjects}</span>
+        <span className="kmp-projects-all-arrow">→</span>
+      </a>
     </section>
   );
 }
@@ -828,8 +820,13 @@ function ServicePreview({ kind }) {
 }
 
 const SERVICE_PHOTOS = {
-  identity: 'assets/uxui-creative.png',
-  uxui: 'assets/uxui-toggles.png',
+  identity: 'assets/svc-identity.png',
+  web: 'assets/svc-web.png',
+  uxui: 'assets/svc-uxui.png',
+  dev: 'assets/svc-dev.png',
+  smm: 'assets/svc-smm.png',
+  outsource: 'assets/svc-outsource.png',
+  ai: 'assets/svc-ai.png',
 };
 
 function Services() {
@@ -1208,6 +1205,53 @@ function Footer() {
   );
 }
 
+// ───── Mobile menu (floating button, bottom-left) ─────
+const MOBILE_NAV_LINKS = [
+  { href: '#works', key: 'nav.projects' },
+  { href: '#services', key: 'nav.services' },
+  { href: '#process', key: 'nav.process' },
+  { href: '#faq', key: 'nav.faq' },
+];
+function MobileMenu() {
+  const { t } = window.useT();
+  const [open, setOpen] = useState(false);
+
+  useEffect(() => {
+    if (!open) return;
+    const onKey = (e) => { if (e.key === 'Escape') setOpen(false); };
+    document.addEventListener('keydown', onKey);
+    return () => document.removeEventListener('keydown', onKey);
+  }, [open]);
+
+  return (
+    <div className={`kmp-mmenu ${open ? 'is-open' : ''}`}>
+      <div className="kmp-mmenu-scrim" onClick={() => setOpen(false)}></div>
+      <nav className="kmp-mmenu-sheet" aria-hidden={!open}>
+        {MOBILE_NAV_LINKS.map((l) => (
+          <a key={l.href} href={l.href} className="kmp-mmenu-link" onClick={() => setOpen(false)}>
+            <span>{t(l.key)}</span>
+            <span className="kmp-mmenu-arrow">→</span>
+          </a>
+        ))}
+        <a href="#contact" className="kmp-mmenu-cta" onClick={() => setOpen(false)}>{t('nav.cta')}</a>
+      </nav>
+      <button
+        type="button"
+        className="kmp-mmenu-fab"
+        onClick={() => setOpen(o => !o)}
+        aria-label="Menu"
+        aria-expanded={open}
+      >
+        <span className="kmp-mmenu-fab-ico">
+          <span></span>
+          <span></span>
+          <span></span>
+        </span>
+      </button>
+    </div>
+  );
+}
+
 // ───── Cookie Banner ─────
 function CookieBanner() {
   const { dict } = window.useT();
@@ -1224,7 +1268,7 @@ function CookieBanner() {
   if (!visible) return null;
   return (
     <div className={`kmp-cookie ${visible ? 'is-in' : ''}`} role="dialog" aria-live="polite">
-      <p className="kmp-cookie-text">{dict.cookies.text}</p>
+      <p className="kmp-cookie-text" dangerouslySetInnerHTML={{ __html: dict.cookies.text }} />
       <div className="kmp-cookie-actions">
         <button type="button" className="kmp-cookie-btn kmp-cookie-btn-ghost" onClick={() => dismiss('declined')}>
           {dict.cookies.decline}
@@ -1285,6 +1329,7 @@ function App() {
       <Contact />
       <FAQ />
       <Footer />
+      <MobileMenu />
       <CookieBanner />
       {TP && (
         <TP title="Tweaks">
